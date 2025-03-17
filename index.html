@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      background-color: #f7f7f7;
+    }
+    #chatContainer {
+      margin-top: 20px;
+    }
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .user {
+      background-color: #e0f7fa;
+      text-align: left;
+    }
+    .ai {
+      background-color: #ffe0b2;
+      text-align: left;
+    }
+    #response {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>AI Chat Interface</h1>
+<div id="chatContainer"></div>
+<textarea id="userInput" placeholder="Type your question here..." rows="4" cols="50"></textarea><br>
+<button onclick="sendMessage()">Ask AI</button>
+
+<div id="response"></div>
+
+<script>
+  // Function to handle sending a message to the backend
+  async function sendMessage() {
+    const userInput = document.getElementById('userInput').value;
+    if (!userInput) return;
+
+    // Add user's message to chat container
+    displayMessage(userInput, 'user');
+    
+    // Clear the input box
+    document.getElementById('userInput').value = '';
+
+    // Send the user input to the backend for processing
+    const responseContainer = document.getElementById('response');
+    responseContainer.innerHTML = 'Processing...';
+
+    try {
+      // Make a POST request to your Node.js backend
+      const response = await fetch('http://localhost:3000/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ question: userInput })
+      });
+
+      const data = await response.json();
+      
+      if (data && data.answer) {
+        // Display AI response
+        displayMessage(data.answer, 'ai');
+      } else {
+        responseContainer.innerHTML = 'Sorry, I couldn\'t get a response from the AI.';
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      responseContainer.innerHTML = 'Something went wrong. Please try again later.';
+    }
+  }
+
+  // Function to display a message in the chat container
+  function displayMessage(message, sender) {
+    const chatContainer = document.getElementById('chatContainer');
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', sender);
+    messageDiv.textContent = message;
+    chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to the latest message
+  }
+</script>
+
+</body>
+</html>
