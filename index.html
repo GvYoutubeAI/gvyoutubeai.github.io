@@ -6,40 +6,111 @@
   <title>AI Chat Interface</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      padding: 20px;
-      background-color: #f7f7f7;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-align: center;
     }
     #chatContainer {
-      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+      height: 70vh;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 15px;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
     .message {
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 5px;
+      margin-bottom: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 1.2em;
+      line-height: 1.6;
+      max-width: 75%;
+      word-wrap: break-word;
     }
     .user {
-      background-color: #e0f7fa;
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      color: #fff;
+      margin-left: auto;
       text-align: left;
     }
     .ai {
-      background-color: #ffe0b2;
+      background: linear-gradient(135deg, #00bcd4, #0288d1);
+      color: #fff;
+      margin-right: auto;
       text-align: left;
     }
-    #response {
+    textarea {
+      width: 100%;
+      padding: 15px;
       margin-top: 20px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1.2em;
+      resize: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+    textarea:focus {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    button {
+      background: #ff7e5f;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 30px;
+      font-size: 1.2em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s ease;
+      width: 100%;
+    }
+    button:hover {
+      background: #feb47b;
+    }
+    #response {
+      font-size: 1.2em;
+      margin-top: 20px;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      #chatContainer {
+        height: 60vh;
+      }
+      textarea {
+        font-size: 1em;
+      }
+      button {
+        font-size: 1.1em;
+      }
     }
   </style>
 </head>
 <body>
 
-<h1>AI Chat Interface</h1>
-<div id="chatContainer"></div>
-<textarea id="userInput" placeholder="Type your question here..." rows="4" cols="50"></textarea><br>
-<button onclick="sendMessage()">Ask AI</button>
-
-<div id="response"></div>
+<div>
+  <h1>AI Chat Interface</h1>
+  <div id="chatContainer"></div>
+  <textarea id="userInput" placeholder="Type your question here..." rows="4"></textarea><br>
+  <button onclick="sendMessage()">Ask AI</button>
+  <div id="response"></div>
+</div>
 
 <script>
   // Function to handle sending a message to the backend
